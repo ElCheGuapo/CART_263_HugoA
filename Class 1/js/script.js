@@ -121,6 +121,10 @@ function handleMovement() {
         } else if(keyIsDown(83)) { //key s
             Player1.pos.y += 10;
         }
+    } else if (Player1.pos.y >= gameHeight) {
+        Player1.pos.y -= 2;
+    } else if (Player1.pos.y <= 0) {
+        Player1.pos.y += 2;
     }
         
 
@@ -131,6 +135,10 @@ function handleMovement() {
         } else if (keyIsDown(DOWN_ARROW)) {
             Player2.pos.y += 10;
         }
+    } else if (Player2.pos.y >= gameHeight) {
+        Player2.pos.y -= 2;
+    } else if (Player2.pos.y <= 0) {
+        Player2.pos.y += 2;
     }
 }
 
