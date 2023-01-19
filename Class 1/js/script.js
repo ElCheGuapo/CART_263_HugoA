@@ -92,7 +92,7 @@ function handleCollision(Ball) {
                 let tempNewVelY = Ball.pos.y - Player1.pos.y;
                 Ball.vel.y = tempNewVelY/10;
                 console.log(dist(Ball.pos.x, Ball.pos.y, Player1.pos.x, Player1.pos.y));
-                Ball.vel.x *= -1;
+                Ball.vel.x *= -1.5;
             }
         }
     } else {
@@ -101,7 +101,7 @@ function handleCollision(Ball) {
                 let tempNewVelY = Ball.pos.y - Player2.pos.y;
                 Ball.vel.y = tempNewVelY/10;
                 console.log(dist(Ball.pos.x, Ball.pos.y, Player2.pos.x, Player2.pos.y));
-                Ball.vel.x *= -1;
+                Ball.vel.x *= -1.5;
             }
         }
     }
@@ -117,9 +117,9 @@ function handleMovement() {
     //Player1
     if(Player1.pos.y >= 0 && Player1.pos.y <= gameHeight){
         if (keyIsDown(87)) { //key w
-            Player1.pos.y -= 10;
+            Player1.pos.y -= 15;
         } else if(keyIsDown(83)) { //key s
-            Player1.pos.y += 10;
+            Player1.pos.y += 15;
         }
     } else if (Player1.pos.y >= gameHeight) {
         Player1.pos.y -= 2;
@@ -131,9 +131,9 @@ function handleMovement() {
     if(Player2.pos.y >= 0 && Player2.pos.y <= gameHeight){
         //Player 2
         if (keyIsDown(UP_ARROW)) {
-            Player2.pos.y -= 10;
+            Player2.pos.y -= 15;
         } else if (keyIsDown(DOWN_ARROW)) {
-            Player2.pos.y += 10;
+            Player2.pos.y += 15;
         }
     } else if (Player2.pos.y >= gameHeight) {
         Player2.pos.y -= 2;

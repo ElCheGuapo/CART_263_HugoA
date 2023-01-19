@@ -2,7 +2,6 @@ class Player {
     constructor(posX, posY, width, height) {
         this.pos = createVector(posX, posY);
         this.dim = createVector(width, height);
-        this.vel = createVector(0, 0);
     }
 
     update() {
