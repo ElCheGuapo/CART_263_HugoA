@@ -1,23 +1,25 @@
+//Boid system tutorial followed from Daniel Shiffman @thecodingtrain
+
 class Boid {
     constructor() {
-      this.position = createVector(random(width), random(height), 20);
-      this.velocity = p5.Vector.random2D();
-      this.velocity.setMag(random(2, 4));
-      this.acceleration = createVector();
+      this.pos = createVector(random(width), random(height), 20);
+      this.vel = p5.Vector.random2D();
+      this.vel.setMag(random(2, 4));
+      this.acc = createVector();
       this.maxForce = 0.2;
       this.maxSpeed = 5;
     }
   
     edges() {
-      if (this.position.x > 500) {
-        this.position.x = 0;
-      } else if (this.position.x < -500) {
-        this.position.x = width;
+      if (this.pos.x > 500) {
+        this.pos.x = 0;
+      } else if (this.pos.x < -500) {
+        this.pos.x = width;
       }
-      if (this.position.y > 500) {
-        this.position.y = 0;
-      } else if (this.position.y < -500) {
-        this.position.y = height;
+      if (this.pos.y > 500) {
+        this.pos.y = 0;
+      } else if (this.pos.y < -500) {
+        this.pos.y = height;
       }
     }
   
@@ -26,16 +28,16 @@ class Boid {
       let steering = createVector();
       let total = 0;
 
-      let d = dist(this.position.x, this.position.y, lostChild.pos.x, lostChild.pos.y);
+      let d = dist(this.pos.x, this.pos.y, lostChild.pos.x, lostChild.pos.y);
       if (d < perceptionRadius) {
-        steering.sub(lostChild.velocity);
+        steering.sub(lostChild.vel);
         total++;
       }
 
       if (total > 0) {
         steering.div(total);
         steering.setMag(this.maxSpeed);
-        steering.sub(this.velocity);
+        steering.sub(this.vel);
         steering.limit(this.maxForce);
       }
       return steering;
@@ -47,16 +49,16 @@ class Boid {
       let steering = createVector();
       let total = 0;
       for (let other of boids) {
-        let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+        let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
         if (other != this && d < perceptionRadius) {
-          steering.add(other.velocity);
+          steering.add(other.vel);
           total++;
         }
       }
       if (total > 0) {
         steering.div(total);
         steering.setMag(this.maxSpeed);
-        steering.sub(this.velocity);
+        steering.sub(this.vel);
         steering.limit(this.maxForce);
       }
       return steering;
@@ -67,9 +69,9 @@ class Boid {
       let steering = createVector();
       let total = 0;
       for (let other of boids) {
-        let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+        let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
         if (other != this && d < perceptionRadius) {
-          let diff = p5.Vector.sub(this.position, other.position);
+          let diff = p5.Vector.sub(this.pos, other.pos);
           diff.div(d * d);
           steering.add(diff);
           total++;
@@ -78,7 +80,7 @@ class Boid {
       if (total > 0) {
         steering.div(total);
         steering.setMag(this.maxSpeed);
-        steering.sub(this.velocity);
+        steering.sub(this.vel);
         steering.limit(this.maxForce);
       }
       return steering;
@@ -89,16 +91,16 @@ class Boid {
       let steering = createVector();
       let total = 0;
       for (let other of boids) {
-        let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+        let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
         if (other != this && d < perceptionRadius) {
-          steering.add(other.position);
+          steering.add(other.pos);
           total++;
         }
       }
       if (total > 0) {
         steering.div(total);
-        steering.sub(this.position);
-        steering.setMag(this.maxSpeed);
+        steering.sub(this.pos);
+        steering.setMag(this.vel);
         steering.sub(this.velocity);
         steering.limit(this.maxForce);
       }
@@ -116,31 +118,34 @@ class Boid {
       cohesion.mult(0.1);
       separation.mult(5);
   
-      this.acceleration.add(alignment);
-      this.acceleration.add(cohesion);
-      this.acceleration.add(separation);
+      this.acc.add(alignment);
+      this.acc.add(cohesion);
+      this.acc.add(separation);
     }
   
     update() {
-      this.position.add(this.velocity);
-      this.velocity.add(this.acceleration);
-      this.velocity.limit(this.maxSpeed);
-      this.acceleration.mult(0);
+      this.pos.add(this.vel);
+      this.vel.add(this.acceleration);
+      this.vel.limit(this.maxSpeed);
+      this.acc.mult(0);
     }
     
+
+    //display boid as 3d object which fades in when closing in on lost child object
+
     show(lostChild) {
-      let alpha = (255 - dist(this.position.x, this.position.y, lostChild.pos.x, lostChild.pos.y))*2;
+      let alpha = (255 - dist(this.pos.x, this.pos.y, lostChild.pos.x, lostChild.pos.y))*2;
 
       push();
       noStroke();
       ambientMaterial(0, 0, 180, alpha);
-      translate(this.position.x, this.position.y, this.position.z);
+      translate(this.pos.x, this.pos.y, this.pos.z);
       box(random(45, 55), random(45, 55), random(85, 95));
       pop();
 
       push();
       noStroke();
-      translate(this.position.x, this.position.y, this.position.z-15);
+      translate(this.pos.x, this.pos.y, this.pos.z-15);
       ambientMaterial(0, 0, 50, alpha-180);
       rotateX(0);
       plane(80);

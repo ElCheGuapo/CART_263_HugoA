@@ -1,24 +1,32 @@
 /**
-Title of Project
-Author Name
+Can't Find it's Mother
+Hugo Agnola
+40116274
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+
 */
 
 "use strict";
+//particles for lost child
 let particles = [];
+
+//boid particles WIP
 let boidParticles = [];
+
+//boid array
 const flock = [];
 
+//misc variables
 let angleY, angleX, cam, lostChild, HDRI, floorTexture1,grassPatch1;
+
+//cam settings
 let camMovement = {
   x: 0,
   y: 0
 };
 
 /**
-Description of preload
+load skydome texture, load floor texture, load test grass patch (not implemented)
 */
 function preload() {
   HDRI = loadImage('assets/images/sky2.png');
@@ -27,9 +35,8 @@ function preload() {
 }
 
 /**
-Description of setup
+make canvas as 3D, create the lost child object, create the boid flock, set original angle of rotating sky dome
 */
-
 function setup() {
   createCanvas(1000, 600, WEBGL);
   lostChild = new Child(0, 0, 0);
@@ -40,6 +47,7 @@ function setup() {
   angleY = 0.7;
 }
 
+//particle system for lost child.
 function childParticleSystem() {
     let p;
     for (let i = 0; i < 2; i++) {
@@ -56,12 +64,14 @@ function childParticleSystem() {
     }
 }
 
+//create array of boids.
 function createFlock() {
   for (let i = 0; i < 40; i++) {
     flock.push(new Boid());
   }
 }
 
+//update and handle all boid agents within the array
 function handleBoids() {
     let p;
     for (let boid of flock) {
@@ -98,6 +108,8 @@ function scene() {
   angleY += 0.0001;
 }
 
+
+//lock camera on child, and update class
 function handleLostChild() {
   lostChild.update();
   camMovement.x += lostChild.vel.x;
@@ -109,11 +121,12 @@ function draw() {
   background(20);
   rectMode(CENTER);
 
+  //setup 3D camera
   cam = createCamera();
   cam.move(0 + lostChild.pos.x, 800+ lostChild.pos.y, -250);
   cam.tilt(-1.5);
 
-  rotateZ(0.4);
+  //rotateZ(0.4);
   scene();
   handleLostChild();
   handleBoids();

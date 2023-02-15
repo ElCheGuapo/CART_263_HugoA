@@ -6,6 +6,8 @@ class Child{
     }
 
     update() {
+
+        //confine new target location to the edges of the map
         if(dist(this.pos.x, this.pos.y, this.targetPoint.x, this.targetPoint.y) > 2) {
             this.pos.add(this.vel);
         } else {
@@ -20,6 +22,7 @@ class Child{
         }
     }
 
+    //set a new random walking speed
     setVel() {
         this.vel.x = this.targetPoint.x - this.pos.x;
         this.vel.y = this.targetPoint.y - this.pos.y;
