@@ -3,7 +3,7 @@ Can't Find it's Mother
 Hugo Agnola
 40116274
 
-
+Made a 3D environment where the a lost child with a particle system is locking for it's mother, with entities fading in and out of existance simulating some kind of dreamy forest type feel.
 */
 
 "use strict";
