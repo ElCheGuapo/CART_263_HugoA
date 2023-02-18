@@ -118,6 +118,7 @@ function handleLostChild() {
 
 
 function draw() {
+  
   background(20);
   rectMode(CENTER);
 
