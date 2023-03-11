@@ -1,0 +1,259 @@
+/* import fonts */
+@import url(https://fonts.google.com/specimen/Oswald?category=Sans+Serif,Display,Monospace);
+
+/* Clearing floats */
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
+.cf {
+  *zoom: 1;
+}
+
+/* Mini reset, no margins, paddings or bullets */
+.menu,
+.submenu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Main level */
+.menu {     
+  font-family: 'Oswald', sans-serif;
+
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 400;
+  line-height: 1.58;
+
+  letter-spacing: -.003em;
+  font-size: 20px;
+  padding: 70px;
+
+  margin: 2px auto;
+  width: 600px;
+  /* http://www.red-team-design.com/horizontal-centering-using-css-fit-content-value */
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content; 
+}
+
+.menu > li {
+  background: #34495e;
+  float: left;
+  position: relative;
+  transform: skewX(25deg);
+}
+
+.menu label {
+  display: block;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 14px;
+}   
+
+.menu li:hover {
+  background: #e74c3c;
+}   
+
+
+.menu > li > label {
+  transform: skewX(-25deg);
+  padding: 1em 2em;
+}
+
+/* Dropdown */
+.submenu {
+  position: absolute;
+  text-align: center;
+  font-size: 20px;
+  width: 200px;
+  left: 50%; margin-left: -100px;
+  transform: skewX(-25deg);
+  transform-origin: left top;
+}
+
+.submenu li {
+  background-color: #34495e;
+  position: relative;
+  overflow: hidden;   
+}           
+
+.submenu > li > label {
+  padding: 1em;     
+}
+
+.submenu > li::after {
+  content: '';
+  position: absolute;
+  top: -125%;
+  height: 100%;
+  width: 100%;      
+  box-shadow: 0 0 50px rgba(0, 0, 0, .9);     
+}   
+
+/* Odd stuff */
+.submenu > li:nth-child(odd){
+  transform: skewX(-25deg) translateX(0);
+}
+
+.submenu > li:nth-child(odd) > label {
+  transform: skewX(25deg);
+}
+
+.submenu > li:nth-child(odd)::after {
+  right: -50%;
+  transform: skewX(-25deg) rotate(3deg);
+}       
+
+/* Even stuff */
+.submenu > li:nth-child(even){
+  transform: skewX(25deg) translateX(0);
+}
+
+.submenu > li:nth-child(even) > label {
+  transform: skewX(-25deg);
+}
+
+.submenu > li:nth-child(even)::after {
+  left: -50%;
+  transform: skewX(25deg) rotate(3deg);
+}
+
+/* Show dropdown */
+.submenu,
+.submenu li {
+  opacity: 0;
+  visibility: hidden;     
+}
+
+.submenu li {
+  transition: .2s ease transform;
+}
+
+.menu > li:hover .submenu,
+.menu > li:hover .submenu li {
+  opacity: 1;
+  visibility: visible;
+}   
+
+.menu > li:hover .submenu li:nth-child(even){
+  transform: skewX(25deg) translateX(15px);     
+}
+
+.menu > li:hover .submenu li:nth-child(odd){
+  transform: skewX(-25deg) translateX(-15px);     
+}
+
+
+/* Custom Check box CSS */
+
+input[type="checkbox"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+
+/* Custom checkbox buttons + actions CSS */
+
+
+/* WORLD CUP */
+
+#btnControl2022-WC:checked + label {
+  text-decoration: overline;
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2018-WC:checked + label {
+  text-decoration: overline;
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2014-WC:checked + label {
+  text-decoration: overline;
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2010-WC:checked + label {
+  text-decoration: overline;
+  text-decoration: underline;
+  color: white;
+}
+
+
+/* CHAMPION'S LEAGUE */
+
+#btnControl2022-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2021-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2020-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2019-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2018-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2017-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2016-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2015-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2014-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2013-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2012-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
+
+#btnControl2011-CL:checked + label {
+  text-decoration: underline;
+  color: white;
+}
