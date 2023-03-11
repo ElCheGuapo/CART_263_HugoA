@@ -67,7 +67,7 @@ let CLStatsTopScorers2013 = [];
 let CLStatsTopScorers2012 = [];
 let CLStatsTopScorers2011 = [];
 
-var navbar, canvas, socket, WorldCup2022Check, WorldCup2018Check, WorldCup2014Check, WorldCup2010Check, ChampLeagueCheck2022, ChampLeagueCheck2021, ChampLeagueCheck2020, ChampLeagueCheck2019, ChampLeagueCheck2018, ChampLeagueCheck2017, ChampLeagueCheck2016, ChampLeagueCheck2015, ChampLeagueCheck2014, ChampLeagueCheck2013, ChampLeagueCheck2012, ChampLeagueCheck2011, flag1, flag2, flag3, flag4;
+var navbar, canvas, socket, WorldCup2022Check, WorldCup2018Check, WorldCup2014Check, WorldCup2010Check, ChampLeagueCheck2022, ChampLeagueCheck2021, ChampLeagueCheck2020, ChampLeagueCheck2019, ChampLeagueCheck2018, ChampLeagueCheck2017, ChampLeagueCheck2016, ChampLeagueCheck2015, ChampLeagueCheck2014, ChampLeagueCheck2013, ChampLeagueCheck2012, ChampLeagueCheck2011, flag1, flag2, flag3;
 
 let paramsFetch;
 let currentDisplay = [];
@@ -86,7 +86,7 @@ function setup() {
   // navbar = document.getElementById("navbar");
   // navbar.position(0, -20);
 
-  background(51);
+  background(255);
 
 //set default params
   paramsFetch = [3]
@@ -100,6 +100,10 @@ function setup() {
     storeInLocalDB(stats);
 
   });
+//initialize dom elements in the html file
+  flag1 = document.getElementById("flag1");
+  flag2 = document.getElementById("flag2");
+  flag3 = document.getElementById("flag3");
 
 //initialize the ui check on HTML
   WorldCup2022Check = document.getElementById('btnControl2022-WC');
@@ -527,14 +531,18 @@ function dataVisualization() {
   fill(100);
   text(currentDisplay[15], width/2-225, height/2+175);
   pop();
-
+  
+  flag1.src = currentDisplay[0][2].logo;
+  flag2.src = currentDisplay[1][2].logo;
+  flag3.src = currentDisplay[2][2].logo;
+  //console.log(flag1);
   for(var i = 0; i < 3; i++) {
     push();
     textSize(60);
     fill(0);
-    text(currentDisplay[i][0], 50, 100 + i*100);
+    text(currentDisplay[i][0], 90, 100 + i*100);
     // text(currentDisplay[i][1], 300, 100 + i*20);
-
+    
     pop();
   }
 
@@ -544,7 +552,7 @@ function dataVisualization() {
     fill(0);
     text(currentDisplay[i][0], 50, 400 + i*20);
     //text(currentDisplay[i][2].name, 250, 400 + i*20);
-    document.getElementById("flag1").src = currentDisplay[i][2].logo;
+    //console.log(currentDisplay[i][2].logo);
     //console.log(currentDisplay[i][2][2]);
     //text(currentDisplay[i][1], 300, 50 + i*20);
 
@@ -559,7 +567,7 @@ function dataVisualization() {
 //                  MAIN DRAW FUNCTION
 //___________________________________________________________
 function draw() {
-  background(150);
+  background(255);
   checkForSelection();
   fetchFromList();
 

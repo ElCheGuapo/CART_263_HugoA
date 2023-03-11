@@ -16,6 +16,17 @@
   *zoom: 1;
 }
 
+.div {
+  float: right;
+}
+
+.center {
+  float: left;
+  object-position: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Mini reset, no margins, paddings or bullets */
 .menu,
 .submenu {
@@ -45,7 +56,7 @@
 }
 
 .menu > li {
-  background: #34495e;
+  background: #a2b4c7;
   float: left;
   position: relative;
   transform: skewX(25deg);
@@ -60,7 +71,7 @@
 }   
 
 .menu li:hover {
-  background: #e74c3c;
+  background: #2d859b;
 }   
 
 
@@ -81,7 +92,7 @@
 }
 
 .submenu li {
-  background-color: #34495e;
+  background: #87a0b9;
   position: relative;
   overflow: hidden;   
 }           
@@ -165,32 +176,27 @@ input[type="checkbox"] {
   margin: 0;
 }
 
-
 /* Custom checkbox buttons + actions CSS */
 
 
 /* WORLD CUP */
 
 #btnControl2022-WC:checked + label {
-  text-decoration: overline;
   text-decoration: underline;
   color: white;
 }
 
 #btnControl2018-WC:checked + label {
-  text-decoration: overline;
   text-decoration: underline;
   color: white;
 }
 
 #btnControl2014-WC:checked + label {
-  text-decoration: overline;
   text-decoration: underline;
   color: white;
 }
 
 #btnControl2010-WC:checked + label {
-  text-decoration: overline;
   text-decoration: underline;
   color: white;
 }
@@ -256,4 +262,13 @@ input[type="checkbox"] {
 #btnControl2011-CL:checked + label {
   text-decoration: underline;
   color: white;
+}
+
+#flags {
+  list-style-type: none;
+}
+
+#flag1 {
+  position: 300, 300;
+  overflow: hidden; 
 }
