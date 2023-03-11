@@ -20,6 +20,7 @@ const corsOptions ={
 
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
+//just some arrays
 var stats = [];
 var playerStats = [];
 
@@ -31,10 +32,13 @@ var io = require('socket.io')(server);
 
 app.use(express.static('public'));
 
+//do the hosting thing
 app.get('/', async (req, res) => {
   res.render('public/index.html');
 });
 
+
+//what settings are we using to pull data
 const options = {
   method: 'GET',
   url: 'https://v3.football.api-sports.io/' + URLExtension,
@@ -45,42 +49,40 @@ const options = {
   }
 };
 
+//use bodyParser to make data more readable/easier to use
 app.use(bodyParser.json());
 
 async function getData() {
+  //request + pull data from api
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
+  //clear array so it can be reused
     stats = [];
-    var as = JSON.parse(body);
-    for (var i = 0; i < 15; i++) {
-      //console.log(as.response[i].statistics[0].league);
-      //console.log("__________________");
 
+    //turn body into something more usable
+    var as = JSON.parse(body);
+
+  //pull top 15 player stats
+    for (var i = 0; i < 15; i++) {
+  //cherry pick which stats I want to mess around with 
       playerStats.push(as.response[i].player.name);
       playerStats.push(as.response[i].player.age);
       playerStats.push(as.response[i].statistics[0].team);
       playerStats.push(as.response[i].player.nationality);
       playerStats.push(as.response[i].statistics[0].goals);
-      playerStats.push(as.response[i].statistics[0].assists);
-
-      //console.log(playerStats);
       
       stats.push(playerStats);
       playerStats = [];
       
-
-      //console.log("__________________");
     }
     stats.push(as.response[0].statistics[0].league.season);
     stats.push(as.response[0].statistics[0].league.id);
     console.log("sending " + as.response[0].statistics[0].league.season);
     console.log("________end_______");
-    //console.log(stats);
     
-    //emit data to front end
+  //emit data to front end
     io.emit("stats", stats);
 
-    //console.log(body);
   });
 }
 
@@ -89,11 +91,8 @@ io.on('connection', (socket) => {
   console.log(socket.id);
 
   socket.on('params', (data) => {
-    //console.log(socket);
-
-    //console.log(socket.extension);
+  //Modify Params
     URLExtension = data.extension;
-
 
     options.qs.season = data.year;
 
@@ -102,6 +101,15 @@ io.on('connection', (socket) => {
     getData();
   })
 });
+
+
+
+
+
+
+//_______________________
+//function dump bellow :)
+//_______________________
 
 // io.on('params', (socket) => {
 //   console.log(socket);

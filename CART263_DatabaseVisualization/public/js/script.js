@@ -526,6 +526,8 @@ function checkForSelection() {
 //              HANDLE DATA VISUALIZATION
 //___________________________________________________________
 function dataVisualization() {
+
+  //display year + league
   push();
   textSize(450);
   fill(180);
@@ -539,7 +541,8 @@ function dataVisualization() {
   flag1.src = currentDisplay[0][2].logo;
   flag2.src = currentDisplay[1][2].logo;
   flag3.src = currentDisplay[2][2].logo;
-  //console.log(flag1);
+  
+  //display top 3 + their stats
   for(var i = 0; i < 3; i++) {
     push();
     textSize(55);
@@ -552,6 +555,7 @@ function dataVisualization() {
     pop();
   }
 
+  //display other top players + their stats
   for(var i = 3; i < 15; i++) {
     push();
     textSize(15);
