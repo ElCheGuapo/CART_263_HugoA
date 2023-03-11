@@ -67,7 +67,7 @@ let CLStatsTopScorers2013 = [];
 let CLStatsTopScorers2012 = [];
 let CLStatsTopScorers2011 = [];
 
-var socket, WorldCup2022Check, WorldCup2018Check, WorldCup2014Check, WorldCup2010Check, ChampLeagueCheck2022, ChampLeagueCheck2021, ChampLeagueCheck2020, ChampLeagueCheck2019, ChampLeagueCheck2018, ChampLeagueCheck2017, ChampLeagueCheck2016, ChampLeagueCheck2015, ChampLeagueCheck2014, ChampLeagueCheck2013, ChampLeagueCheck2012, ChampLeagueCheck2011;
+var navbar, canvas, socket, WorldCup2022Check, WorldCup2018Check, WorldCup2014Check, WorldCup2010Check, ChampLeagueCheck2022, ChampLeagueCheck2021, ChampLeagueCheck2020, ChampLeagueCheck2019, ChampLeagueCheck2018, ChampLeagueCheck2017, ChampLeagueCheck2016, ChampLeagueCheck2015, ChampLeagueCheck2014, ChampLeagueCheck2013, ChampLeagueCheck2012, ChampLeagueCheck2011;
 
 let paramsFetch;
 let currentDisplay = [];
@@ -81,13 +81,16 @@ let displayIsActive;
 //___________________________________________________________
 function setup() {
 //set standard p5 canvas and background
-  createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth-100, windowHeight-150);
+  canvas.position(50, 180);
+  // navbar = document.getElementById("navbar");
+  // navbar.position(0, -20);
+
   background(51);
 
 //set default params
   paramsFetch = [3]
   paramsFetch = ["players/topscorers", 2022, 1];
-  dataFetched = false;
   // newPacket = false;
   displayIsActive = false;
   
@@ -131,30 +134,22 @@ function storeInLocalDB(stats) {
       switch(stats[15]) {
         case 2022:
           if(!authenticator.WCstats2022Saved && stats[15] === 2022) {
-            //console.log(stats[15]);
             WCStatsTopScorers2022 = stats;
-            //console.log(WCStatsTopScorers2022);
             authenticator.WCstats2022Saved = true;
           }
         case 2018:
           if(!authenticator.WCstats2018Saved && stats[15] === 2018) {
-            //console.log(stats[15]);
             WCStatsTopScorers2018 = stats;
-            //console.log(WCStatsTopScorers2018);
             authenticator.WCstats2018Saved = true;
           }
         case 2014:
           if(!authenticator.WCstats2014Saved && stats[15] === 2014) {
-            //console.log(stats[15]);
             WCStatsTopScorers2014 = stats;
-            //console.log(WCStatsTopScorers2014);
             authenticator.WCstats2014Saved = true;
           }
         case 2010:
           if(!authenticator.WCstats2010Saved && stats[15] === 2010) {
-            //console.log(stats[15]);
             WCStatsTopScorers2010 = stats;
-            //console.log(WCStatsTopScorers2010);
             authenticator.WCstats2010Saved = true;
           }
       }
@@ -236,60 +231,119 @@ function storeInLocalDB(stats) {
   }
 }
 function fetchFromList() {
-  if(!dataFetched) {
+  if(!authenticator.dataFetched) {
     if(!authenticator.WCallstatsPulled) {
+
       if(!authenticator.WCstats2022Pulled) {
         emitToBackEnd(paramsFetch[0],2022,paramsFetch[2]);
         console.log("retriving wc 2022 data");
         authenticator.WCstats2022Pulled = true;
-        console.log("2022 data retrieved");
-      }
-  
-      if(!authenticator.WCstats2018Pulled) {
+        console.log("2022 wc data retrieved");
+      } else if(!authenticator.WCstats2018Pulled) {
         emitToBackEnd(paramsFetch[0],2018,paramsFetch[2]);
         console.log("retriving wc 2018 data");
         authenticator.WCstats2018Pulled = true;
-        console.log("2018 data retrieved");
-      }
-  
-      if(!authenticator.WCstats2014Pulled) {
+        console.log("2018 wc data retrieved");
+      } else if(!authenticator.WCstats2014Pulled) {
         emitToBackEnd(paramsFetch[0],2014,paramsFetch[2]);
         console.log("retriving wc 2014 data");
         authenticator.WCstats2014Pulled = true;
-        console.log("2014 data retrieved");
-      }
-
-      if(!authenticator.WCstats2010Pulled) {
+        console.log("2014 wc data retrieved");
+      } else if(!authenticator.WCstats2010Pulled) {
         emitToBackEnd(paramsFetch[0],2010,paramsFetch[2]);
         console.log("retriving wc 2010 data");
         authenticator.WCstats2010Pulled = true;
-        console.log("2014 data retrieved");
+        console.log("2010 wc data retrieved");
       }
 
       if(authenticator.WCstats2022Pulled && authenticator.WCstats2018Pulled && authenticator.WCstats2014Pulled && authenticator.WCstats2010Pulled) {
         authenticator.WCallstatsPulled = true;
-        console.log("all data retrieved");
+        console.log("all wc data retrieved");
       }
 
     }
-    
-    // paramsFetch[2] = 2;
 
-    // emitToBackEnd(paramsFetch[0],2022,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2021,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2020,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2019,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2018,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2017,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2016,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2015,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2014,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2013,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2012,paramsFetch[2]);
-    // emitToBackEnd(paramsFetch[0],2011,paramsFetch[2]);
+    if(!authenticator.CLstats2022) {
+      emitToBackEnd(paramsFetch[0],2022, 2);
+      console.log("retriving cl 2022 data");
+      authenticator.CLstats2022 = true;
+      console.log("CL 2022 data retrieved");
 
-    if(authenticator.WCallstatsPulled) {
-      dataFetched = true;
+    } else if(!authenticator.CLstats2021) {
+      emitToBackEnd(paramsFetch[0],2021, 2);
+      console.log("retriving cl 2021 data");
+      authenticator.CLstats2021 = true;
+      console.log("CL 2021 data retrieved");
+
+    } else if(!authenticator.CLstats2020) {
+      emitToBackEnd(paramsFetch[0],2020, 2);
+      console.log("retriving cl 2020 data");
+      authenticator.CLstats2020 = true;
+      console.log("CL 2020 data retrieved");
+
+    } else if(!authenticator.CLstats2019) {
+      emitToBackEnd(paramsFetch[0],2019, 2);
+      console.log("retriving cl 2019 data");
+      authenticator.CLstats2019 = true;
+      console.log("CL 2019 data retrieved");
+
+    } else if(!authenticator.CLstats2018) {
+      emitToBackEnd(paramsFetch[0],2018, 2);
+      console.log("retriving cl 2018 data");
+      authenticator.CLstats2018 = true;
+      console.log("CL 2018 data retrieved");
+
+    } else if(!authenticator.CLstats2017) {
+      emitToBackEnd(paramsFetch[0],2017, 2);
+      console.log("retriving cl 2017 data");
+      authenticator.CLstats2017 = true;
+      console.log("CL 2017 data retrieved");
+
+    } else if(!authenticator.CLstats2016) {
+      emitToBackEnd(paramsFetch[0],2016, 2);
+      console.log("retriving cl 2016 data");
+      authenticator.CLstats2016 = true;
+      console.log("CL 2016 data retrieved");
+
+    } else if(!authenticator.CLstats2015) {
+      emitToBackEnd(paramsFetch[0],2015, 2);
+      console.log("retriving cl 2015 data");
+      authenticator.CLstats2015 = true;
+      console.log("CL 2015 data retrieved");
+
+    } else if(!authenticator.CLstats2014) {
+      emitToBackEnd(paramsFetch[0],2014, 2);
+      console.log("retriving cl 2014 data");
+      authenticator.CLstats2014 = true;
+      console.log("CL 2014 data retrieved");
+
+    } else if(!authenticator.CLstats2013) {
+      emitToBackEnd(paramsFetch[0],2013, 2);
+      console.log("retriving cl 2013 data");
+      authenticator.CLstats2013 = true;
+      console.log("CL 2013 data retrieved");
+
+    } else if(!authenticator.CLstats2012) {
+      emitToBackEnd(paramsFetch[0],2012, 2);
+      console.log("retriving cl 2012 data");
+      authenticator.CLstats2012 = true;
+      console.log("CL 2012 data retrieved");
+
+    } else if(!authenticator.CLstats2011) {
+      emitToBackEnd(paramsFetch[0],2011, 2);
+      console.log("retriving cl 2011 data");
+      authenticator.CLstats2011 = true;
+      console.log("CL 2011 data retrieved");
+
+    }
+
+    if(authenticator.CLstats2022 && authenticator.CLstats2021 && authenticator.CLstats2020 && authenticator.CLstats2019 && authenticator.CLstats2018 && authenticator.CLstats2017 && authenticator.CLstats2016 && authenticator.CLstats2015 && authenticator.CLstats2014 && authenticator.CLstats2013 && authenticator.CLstats2012 && authenticator.CLstats2011) {
+      authenticator.CLstatsPulled = true;
+      console.log("all wc data retrieved");
+    }
+
+    if(authenticator.WCallstatsPulled && authenticator.CLstatsPulled) {
+      authenticator.dataFetched = true;
     }
   }
 }
@@ -325,6 +379,7 @@ function checkForSelection() {
     optionSelection.yearSelected = 2022;
     currentDisplay = WCStatsTopScorers2022;
     displayIsActive = true;
+    WorldCup2022Check.checked = false;
   
   } else if (WorldCup2018Check.checked) { //check for world cup 2018
 
@@ -332,6 +387,7 @@ function checkForSelection() {
     optionSelection.yearSelected = 2018;
     currentDisplay = WCStatsTopScorers2018;
     displayIsActive = true;
+    WorldCup2018Check.checked = false;
 
   } else if (WorldCup2014Check.checked) { //check for world cup 2014
 
@@ -339,6 +395,7 @@ function checkForSelection() {
     optionSelection.yearSelected = 2014;
     currentDisplay = WCStatsTopScorers2014;
     displayIsActive = true;
+    WorldCup2014Check.checked = false;
 
   } else if (WorldCup2010Check.checked) { //check for world cup 2010
 
@@ -346,6 +403,7 @@ function checkForSelection() {
     optionSelection.yearSelected = 2010;
     currentDisplay = WCStatsTopScorers2010;
     displayIsActive = true;
+    WorldCup2010Check.checked = false;
 
   }
 //__________________end_of_section___________________________
@@ -359,73 +417,97 @@ function checkForSelection() {
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2022;
+    currentDisplay = CLStatsTopScorers2022;
     displayIsActive = true;
+    ChampLeagueCheck2022.checked = false;
 
   } else if (ChampLeagueCheck2021.checked) { //check for Champions League 2021
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2021;
+    currentDisplay = CLStatsTopScorers2021;
     displayIsActive = true;
+    ChampLeagueCheck2021.checked = false;
 
   } else if (ChampLeagueCheck2020.checked) { //check for Champions League 2020
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2020;
+    currentDisplay = CLStatsTopScorers2020;
     displayIsActive = true;
+    ChampLeagueCheck2020.checked = false;
 
   } else if (ChampLeagueCheck2019.checked) { //check for Champions League 2019
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2019;
+    currentDisplay = CLStatsTopScorers2019;
     displayIsActive = true;
+    ChampLeagueCheck2019.checked = false;
     
   } else if (ChampLeagueCheck2018.checked) { //check for Champions League 2018
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2018;
+    currentDisplay = CLStatsTopScorers2018;
     displayIsActive = true;
+    ChampLeagueCheck2018.checked = false;
 
   } else if (ChampLeagueCheck2017.checked) { //check for Champions League 2017
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2017;
+    currentDisplay = CLStatsTopScorers2017;
     displayIsActive = true;
+    ChampLeagueCheck2017.checked = false;
 
   } else if (ChampLeagueCheck2016.checked) { //check for Champions League 2016
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2016;
+    currentDisplay = CLStatsTopScorers2016;
     displayIsActive = true;
+    ChampLeagueCheck2016.checked = false;
 
   } else if (ChampLeagueCheck2015.checked) { //check for Champions League 2015
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2015;
+    currentDisplay = CLStatsTopScorers2015;
     displayIsActive = true;
+    ChampLeagueCheck2015.checked = false;
     
   } else if (ChampLeagueCheck2014.checked) { //check for Champions League 2014
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2014;
+    currentDisplay = CLStatsTopScorers2014;
     displayIsActive = true;
+    ChampLeagueCheck2014.checked = false;
 
   } else if (ChampLeagueCheck2013.checked) { //check for Champions Leaguep 2013
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2013;
+    currentDisplay = CLStatsTopScorers2013;
     displayIsActive = true;
+    ChampLeagueCheck2013.checked = false;
 
   } else if (ChampLeagueCheck2012.checked) { //check for Champions League 2012
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2012;
+    currentDisplay = CLStatsTopScorers2012;
     displayIsActive = true;
+    ChampLeagueCheck2012.checked = false;
 
   } else if (ChampLeagueCheck2011.checked) { //check for Champions League 2011
 
     optionSelection.leagueSelected = 'Champions League';
     optionSelection.yearSelected = 2011;
+    currentDisplay = CLStatsTopScorers2011;
     displayIsActive = true;
+    ChampLeagueCheck2011.checked = false;
     
   }
 //__________________end_of_section___________________________
@@ -435,15 +517,24 @@ function checkForSelection() {
 //__________________end_of_section___________________________
 
 
+
 //___________________________________________________________
 //              HANDLE DATA VISUALIZATION
 //___________________________________________________________
 function dataVisualization() {
+  push();
+  textSize(20);
+  fill(0);
+  text(currentDisplay[15], width/2, 100);
+  pop();
+
   for(var i = 0; i < 15; i++) {
     push();
     textSize(20);
     fill(0);
     text(currentDisplay[i][0], 50, 50 + i*20);
+    text(currentDisplay[i][1], 300, 50 + i*20);
+
     pop();
   }
 
