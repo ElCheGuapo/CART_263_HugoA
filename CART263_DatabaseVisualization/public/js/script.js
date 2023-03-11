@@ -67,7 +67,7 @@ let CLStatsTopScorers2013 = [];
 let CLStatsTopScorers2012 = [];
 let CLStatsTopScorers2011 = [];
 
-var navbar, canvas, socket, WorldCup2022Check, WorldCup2018Check, WorldCup2014Check, WorldCup2010Check, ChampLeagueCheck2022, ChampLeagueCheck2021, ChampLeagueCheck2020, ChampLeagueCheck2019, ChampLeagueCheck2018, ChampLeagueCheck2017, ChampLeagueCheck2016, ChampLeagueCheck2015, ChampLeagueCheck2014, ChampLeagueCheck2013, ChampLeagueCheck2012, ChampLeagueCheck2011;
+var navbar, canvas, socket, WorldCup2022Check, WorldCup2018Check, WorldCup2014Check, WorldCup2010Check, ChampLeagueCheck2022, ChampLeagueCheck2021, ChampLeagueCheck2020, ChampLeagueCheck2019, ChampLeagueCheck2018, ChampLeagueCheck2017, ChampLeagueCheck2016, ChampLeagueCheck2015, ChampLeagueCheck2014, ChampLeagueCheck2013, ChampLeagueCheck2012, ChampLeagueCheck2011, flag1, flag2, flag3, flag4;
 
 let paramsFetch;
 let currentDisplay = [];
@@ -81,8 +81,8 @@ let displayIsActive;
 //___________________________________________________________
 function setup() {
 //set standard p5 canvas and background
-  canvas = createCanvas(windowWidth-100, windowHeight-150);
-  canvas.position(50, 180);
+  canvas = createCanvas(windowWidth-15, windowHeight-75);
+  //canvas.position(50, 180);
   // navbar = document.getElementById("navbar");
   // navbar.position(0, -20);
 
@@ -523,17 +523,30 @@ function checkForSelection() {
 //___________________________________________________________
 function dataVisualization() {
   push();
-  textSize(20);
-  fill(0);
-  text(currentDisplay[15], width/2, 100);
+  textSize(450);
+  fill(100);
+  text(currentDisplay[15], width/2-225, height/2+175);
   pop();
 
-  for(var i = 0; i < 15; i++) {
+  for(var i = 0; i < 3; i++) {
+    push();
+    textSize(60);
+    fill(0);
+    text(currentDisplay[i][0], 50, 100 + i*100);
+    // text(currentDisplay[i][1], 300, 100 + i*20);
+
+    pop();
+  }
+
+  for(var i = 3; i < 15; i++) {
     push();
     textSize(20);
     fill(0);
-    text(currentDisplay[i][0], 50, 50 + i*20);
-    text(currentDisplay[i][1], 300, 50 + i*20);
+    text(currentDisplay[i][0], 50, 400 + i*20);
+    //text(currentDisplay[i][2].name, 250, 400 + i*20);
+    document.getElementById("flag1").src = currentDisplay[i][2].logo;
+    //console.log(currentDisplay[i][2][2]);
+    //text(currentDisplay[i][1], 300, 50 + i*20);
 
     pop();
   }
