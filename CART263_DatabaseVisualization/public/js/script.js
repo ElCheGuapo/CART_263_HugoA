@@ -81,7 +81,7 @@ let displayIsActive;
 //___________________________________________________________
 function setup() {
 //set standard p5 canvas and background
-  canvas = createCanvas(windowWidth-15, windowHeight-75);
+  canvas = createCanvas(windowWidth-15, windowHeight-190);
   //canvas.position(50, 180);
   // navbar = document.getElementById("navbar");
   // navbar.position(0, -20);
@@ -528,8 +528,12 @@ function checkForSelection() {
 function dataVisualization() {
   push();
   textSize(450);
-  fill(100);
-  text(currentDisplay[15], width/2-225, height/2+175);
+  fill(180);
+  text(currentDisplay[15], width/2-225, height/2+240);
+
+  textSize(70);
+  fill(200);
+  text(optionSelection.leagueSelected, width/2-215, height/2+300);
   pop();
   
   flag1.src = currentDisplay[0][2].logo;
@@ -538,24 +542,29 @@ function dataVisualization() {
   //console.log(flag1);
   for(var i = 0; i < 3; i++) {
     push();
-    textSize(60);
-    fill(0);
-    text(currentDisplay[i][0], 90, 100 + i*100);
-    // text(currentDisplay[i][1], 300, 100 + i*20);
-    
+    textSize(55);
+    fill(90);
+    text(currentDisplay[i][0], width/3 - 350 + (i*450), 50, 450, 90);
+
+    fill(100);
+    textSize(30);
+    text("goals: " + currentDisplay[i][4].total + " | assists: " + currentDisplay[i][4].assists, width/3 - 300 + (i*450), 105, 350, 125);
     pop();
   }
 
   for(var i = 3; i < 15; i++) {
     push();
-    textSize(20);
-    fill(0);
-    text(currentDisplay[i][0], 50, 400 + i*20);
-    //text(currentDisplay[i][2].name, 250, 400 + i*20);
-    //console.log(currentDisplay[i][2].logo);
-    //console.log(currentDisplay[i][2][2]);
-    //text(currentDisplay[i][1], 300, 50 + i*20);
+    textSize(15);
+    fill(100);
+    text(currentDisplay[i][0], 50, 80 + i*35, 125, 25);
 
+    fill(100);
+    textSize(10);
+    text(currentDisplay[i][2].name, 200, 80 + i*35, 125, 25);
+
+    fill(100);
+    textSize(10);
+    text("goals: " + currentDisplay[i][4].total + " | assists: " + currentDisplay[i][4].assists, 50, 97 + i*35, 225, 25);
     pop();
   }
 

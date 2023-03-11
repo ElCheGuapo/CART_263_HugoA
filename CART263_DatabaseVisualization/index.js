@@ -61,6 +61,7 @@ async function getData() {
       playerStats.push(as.response[i].statistics[0].team);
       playerStats.push(as.response[i].player.nationality);
       playerStats.push(as.response[i].statistics[0].goals);
+      playerStats.push(as.response[i].statistics[0].assists);
 
       //console.log(playerStats);
       

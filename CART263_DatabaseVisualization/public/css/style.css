@@ -25,6 +25,9 @@
   object-position: center;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 21%;
+  padding-top: 2%;
+
 }
 
 /* Mini reset, no margins, paddings or bullets */
