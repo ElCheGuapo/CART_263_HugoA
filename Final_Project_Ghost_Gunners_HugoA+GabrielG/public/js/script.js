@@ -45,7 +45,7 @@ var socket;
 "use strict";
 
 /** _____________________
-    Description of preload()
+    Load every sprite sound and the pixel font
     _____________________
 */
 
@@ -98,7 +98,7 @@ function preload() {
 }
 
 /** _____________________
-    Description of setup()
+    setup socket reception, init variables and create players
     _____________________
 */
 
@@ -134,7 +134,13 @@ function setup() {
   }, 10);
 
   //SETUP SOCKET EMITER + ENDPOINT
+  //In order to get the project working on your computer, you must replace the address bellow to match your computer's.
+
+  //===============================================================================
   socket = io.connect('http://hugos-macbook-air.local:3000/');
+  //===============================================================================
+
+
   socket.on('otherPlayer', function(playerData) {
     player2.posX = playerData.posX;
     player2.posY = playerData.posY;
@@ -150,7 +156,9 @@ function setup() {
   setInterval(emitData, 50);
 }
 
+//===============================================================================
 //emit player data to server
+//===============================================================================
 function emitData() {
 
   var playerData = {
@@ -167,7 +175,9 @@ function emitData() {
   socket.emit('player', playerData);
 }
 
+//===============================================================================
 //setup player object
+//===============================================================================
 function createPlayer1(){
   let amo = {
     amoTotal: 45,
@@ -177,7 +187,9 @@ function createPlayer1(){
   player = new Player(SCENE_W-150, SCENE_H-150, 70, 100, playerIdle, playerRuning, playerIdle1, playerRuning1, amo);
 }
 
+//===============================================================================
 //create scene
+//===============================================================================
 function createAssets() {
   let GraveStone1 = new sceneAsset(680, 1375, 50, 60, tombstone);
   let GraveStone2 = new sceneAsset(620, 1375, 50, 60, tombstone);
@@ -273,19 +285,25 @@ function createAssets() {
   assets.push(V_Mashine);
 }
 
+//===============================================================================
 //player shoot
+//===============================================================================
 function mousePressed() {
   playerShoot();
 }
 
+//===============================================================================
 //spawn enemies based on wave algorithm
+//===============================================================================
 function enemySpawnTimer() {
   if (timer % 500 === 0 && enemies.length < waveAmnt) {
     createEnemies();
   }
 }
 
+//===============================================================================
 //create enemy object
+//===============================================================================
 function createEnemies() {
   let Ex = random(0, 10);
   if (Ex > 5) {
@@ -299,7 +317,9 @@ function createEnemies() {
   enemies.push(enemy);
 }
 
+//===============================================================================
 //pew pew for all enemies
+//===============================================================================
 function enemyShoot() {
   if (enemies.length > 0 && timer % 300 === 0) {
     for (let enemy of enemies) {
@@ -316,7 +336,9 @@ function enemyShoot() {
   }
 }
 
+//===============================================================================
 //create bullet for player shooting
+//===============================================================================
 function playerShoot() {
   if(player.amo.amoInMag > 0 || playerReloading){
     let v = createVector(camera.mouseX - (player.pos.x+player.size/2), camera.mouseY - (player.pos.y+player.size/2));
@@ -338,7 +360,9 @@ function playerShoot() {
   }
 }
 
+//===============================================================================
 //move enemies based on distance from player
+//===============================================================================
 function enemyMovement() {
   for (let enemy of enemies) {
     let d = dist(enemy.pos.x, enemy.pos.y, player.pos.x, player.pos.y);
@@ -356,7 +380,9 @@ function enemyMovement() {
   }
 }
 
+//===============================================================================
 //select appropriate sprite for player
+//===============================================================================
 function flipPlayer() {
   if(player.playerIsMoving) {
     if(camera.mouseX < player.pos.x) {
@@ -377,7 +403,9 @@ function flipPlayer() {
   }
 }
 
+//===============================================================================
 //move player with WASD
+//===============================================================================
 function playerMovement() {
   if (keyIsDown(65)) {
     player.pos.add(-4, 0);
@@ -400,12 +428,16 @@ function playerMovement() {
   }
 }
 
+//===============================================================================
 //reset player moving variable (for sprite changing)
+//===============================================================================
 function keyReleased() {
   player.playerIsMoving = false;
 }
 
-
+//===============================================================================
+//handle inputs and when those inputs are used
+//===============================================================================
 function keyPressed() {
 
   //if game over: any input = reset
@@ -449,7 +481,9 @@ function keyPressed() {
 
 }
 
-//check if enemies are hit by player bullets
+//===============================================================================
+//check if enemies are hit by player bullets and do something
+//===============================================================================
 function bulletCollisionEnemy() {
   for (let enemy of enemies) {
     for (let bullet of bullets) {
@@ -480,7 +514,9 @@ function bulletCollisionEnemy() {
   }
 }
 
-//check if player is hit by an enemy bullet
+//===============================================================================
+//check if player is hit by an enemy bullet and do something
+//===============================================================================
 function bulletCollisionPlayer() {
   for (let bullet of enemyBullets) {
     //dist between bullet and player
@@ -500,7 +536,9 @@ function bulletCollisionPlayer() {
   }
 }
 
+//===============================================================================
 //check if enemy is touching player
+//===============================================================================
 function physicalCollisionPlayer() {
   for (let enemy of enemies) {
     let d = dist(enemy.pos.x, enemy.pos.y, player.pos.x + 50, player.pos.y + 50);
@@ -517,7 +555,9 @@ function physicalCollisionPlayer() {
   }
 }
 
+//===============================================================================
 //dmg vfx
+//===============================================================================
 function displayDMGBorder() {
   if(displayBorder) {
     camera.off();
@@ -527,6 +567,9 @@ function displayDMGBorder() {
   }
 }
 
+//===============================================================================
+//enemy wave algo
+//===============================================================================
 function handleEnemyWaves() {
   //increase wave cap by one every 10 points in 'score'
   let waveNumber = (waveAmnt - 5);
@@ -535,7 +578,9 @@ function handleEnemyWaves() {
   }
 }
 
+//===============================================================================
 //player handler function
+//===============================================================================
 function handlePlayer() {
   //move display and check for dmg functions
   player.update();
@@ -565,6 +610,9 @@ function handlePlayer() {
   }
 }
 
+//===============================================================================
+//display P2
+//===============================================================================
 function handlePlayer2() {
   //console.log(player2);
   push();
@@ -589,7 +637,9 @@ function handlePlayer2() {
   }
 }
 
+//===============================================================================
 // everything that has to do with the enemies
+//===============================================================================
 function handleEnemies() {
   //check if spawn
   enemySpawnTimer();
@@ -610,7 +660,9 @@ function handleEnemies() {
   }
 }
 
+//===============================================================================
 //update the bullets
+//===============================================================================
 function handleBullets() {
   //display bullets
   if (bullets.length > 0) {
@@ -632,7 +684,9 @@ function handleBullets() {
   removeBullet();
 }
 
+//===============================================================================
 //make sure player cannot pass through objects in scene
+//===============================================================================
 function handleEnvCollision(asset) {
   let d = dist(asset.pos.x+(asset.size.x/2), asset.pos.y+(asset.size.y/2), player.pos.x+(player.size/2), player.pos.y+(player.size/2));
 
@@ -661,7 +715,9 @@ function handleEnvCollision(asset) {
   }
 }
 
+//===============================================================================
 //display the environment
+//===============================================================================
 function handleEnv() {
   for(let asset of assets) {
     push();
@@ -674,7 +730,9 @@ function handleEnv() {
   handleVendingMachine();
 }
 
+//===============================================================================
 //display vending machine
+//===============================================================================
 function handleVendingMachine() {
   //dist between player and vending machine;
   let d = dist(player.pos.x+(player.size/2), player.pos.y+(player.size/2), 1420, 1425);
@@ -696,7 +754,9 @@ function handleVendingMachine() {
   }
 }
 
+//===============================================================================
 //check if bullet should be removed
+//===============================================================================
 function removeBullet() {
   for (let bullet of bullets) {
     if(bullet.x < 0 || bullet.x > width) {
@@ -707,7 +767,9 @@ function removeBullet() {
   }
 }
 
+//===============================================================================
 //glue p5play camera to player pos
+//===============================================================================
 function handleCamera() {
   camera.zoom = 1.8;
   //
@@ -725,7 +787,9 @@ function handleCamera() {
     player.pos.y = SCENE_H;
 }
 
+//===============================================================================
 //display all necessary ui
+//===============================================================================
 function handleUI() {
   //display health points
   push();
@@ -796,14 +860,16 @@ function handleUI() {
   displayDMGBorder();
 }
 
+//===============================================================================
 //keep player within bounds
+//===============================================================================
 function handleBorders() {
   map(player.pos.x, 0, SCENE_W);
   map(player.pos.y, 0, SCENE_H);
 }
 
 /** _____________________
-    Description of draw()
+    Run all of the functions above, check for gameOver condition and if yes, display gameOver screen
     _____________________
 */
 
